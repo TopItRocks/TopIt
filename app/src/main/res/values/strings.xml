@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Top It!</string>
+    <!-- INDEX -->
+    <!-- Log In Screen - "logIn" -->
+    <!-- Create Account Screen - "cas" -->
+    <!-- Retrieve Account - "ret" -->
+    <!-- Verification Page - "ver" -->
+
+    <!-- End INDEX -->
+
+    <!-- Log In Screen / logIn -->
+    <string name="logIn_Title">Welcome to Top It!</string>
+    <string name="logIn_subTitle">Please Log In</string>
+    <string name="logIn_username">User Name</string>
+    <string name="logIn_password">Password</string>
+    <string name="logIn_logIn_btn">Log In</string>
+    <string name="logIn_register_btn_Title">New User?</string>
+    <string name="logIn_register_btn">Register / Create New Account</string>
+    <string name="logIn_retrieve_btn_Title">Forgot Username or Password?</string>
+    <string name="logIn_retrieve_btn">Retrieve Username and Password</string>
+
+    <!-- Create Account Screen -->
+    <string name="reg_Title">Register/Create a new account</string>
+    <string name="reg_username">User Name</string>
+    <string name="reg_password">Password</string>
+    <string name="ret_re_enter_password">Re-enter Password</string>
+    <string name="reg_email">Email</string>
+    <string name="reg_re_enter_email">Re-enter Email</string>
+    <string name="reg_firstName">First Name</string>
+    <string name="reg_lastName">Last Name</string>
+    <string name="reg_birthdate">Birthdate</string>
+    <string name="reg_register_btn">Register</string>
+
+    <!-- Retrieve Account - "ret" -->
+    <string name="ret_Title">Account Recovery</string>
+    <string name="ret_subTitle">Please Enter Your Email or Username</string>
+    <string name="ret_email_username">Email / Username</string>
+    <string name="ret_recover_account_btn">Recover Account</string>
+
+    <!-- Verification Page - "ver" -->
+    <string name="ver_logIn_btn">Log In</string>
+    <string name="ver_resend_btn">Resend Verification</string>
+    <string name="ver_message">After creating an account please check your email for a verification link from Top It!\n\nIf you have verified your email please log in.\n\nIf you need a verification email resent please click the resend verification button.\n</string>
+
+    <!-- Scoreboard Page - "sb" -->
+    <string name="sb_username">non-user</string>
+    <string name="sb_title">Top It Score!</string>
+    <string name="sb_admiration_title">Admiration</string>
+    <string name="sb_affinity_title">Affinity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
