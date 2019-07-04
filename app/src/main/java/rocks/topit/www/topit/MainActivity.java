@@ -34,6 +34,8 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import rocks.topit.www.topit.viewmodel.MainActivityViewModel;
+
 public class MainActivity extends FragmentActivity {
     SharedPreferences sp;
     String username, user, rank, admiration, affinity, combat, aura, vanguard, total_coins, total_points, packaged_result, urlText, dailyB_String;
@@ -42,7 +44,7 @@ public class MainActivity extends FragmentActivity {
     AlertDialog alertDialog;
     Context context;
     ViewPager viewPager;
-
+    ViewModel mViewModel;
 
     //Packaged string from server with user info and scores
     /* Result order:
@@ -64,8 +66,12 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
+        mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        dailyB_String = ((MainActivityViewModel) mViewModel).message;
+        alertDialog = new android.app.AlertDialog.Builder(this).create();
+        alertDialog.setTitle("DailyB Status");
+        alertDialog.setMessage(dailyB_String);
+        alertDialog.show();
 
         Map config = new HashMap();
         config.put("cloud_name", "lsid22exf");
