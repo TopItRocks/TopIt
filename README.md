@@ -1,7 +1,20 @@
-# TopIt Ver 1.00
+# TopIt Ver 1.01
+*****************
 
-First Commit
+Ver 1.01
+Installed fragment to handle pictures from server.
+Can slide through pictures left to right and vise versa.
+
+Known Bugs:
+    1. Rotation kills app
+
+To Do:
+    Get background worker for handling picture array info.
+
+*************
+
 Ver 1.0
+First Commit
 
 You can log in, create account, verify email.
 App keeps you logged in.

@@ -33,12 +33,26 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-
 import rocks.topit.www.topit.viewmodel.MainActivityViewModel;
+
+//Packaged string from server with user info and scores
+/* Result order:
+ * 0 - username
+ * 1 - verified
+ * 2 - rank
+ * 3 - topitScore
+ * 4 - admiration
+ * 5 - affinity
+ * 6 - combat
+ * 7 - aura
+ * 8 - vanguard
+ * 9 - totalCoins
+ * 10 - profilePicture;
+ * */
 
 public class MainActivity extends FragmentActivity {
     SharedPreferences sp;
-    String username, user, rank, admiration, affinity, combat, aura, vanguard, total_coins, total_points, packaged_result, urlText, dailyB_String;
+    String username, user, rank, admiration, affinity, combat, aura, vanguard, total_coins, total_points, packaged_result, urlText, dailyB_String, dailyB_FromServer;
     TextView sb_title_field, sb_username_field, sb_total_points, sb_rank, sb_total_coins, sb_admiration_points, affinity_pts, combat_pts, aura_pts, vanguard_pts;
     Intent user_intent;
     AlertDialog alertDialog;
@@ -46,32 +60,38 @@ public class MainActivity extends FragmentActivity {
     ViewPager viewPager;
     ViewModel mViewModel;
 
-    //Packaged string from server with user info and scores
-    /* Result order:
-     * 0 - username
-     * 1 - verified
-     * 2 - rank
-     * 3 - topitScore
-     * 4 - admiration
-     * 5 - affinity
-     * 6 - combat
-     * 7 - aura
-     * 8 - vanguard
-     * 9 - totalCoins
-     * 10 - profilePicture;
-     * */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+            //get logged in user info
+        sp = getSharedPreferences("login", MODE_PRIVATE);
+        username =  sp.getString("username", "");
+            //get string from background worker
+        user_intent = getIntent();
+        packaged_result = user_intent.getStringExtra("user");
+            //break string apart
+        String[] results = packaged_result.split(",");
+        user = results[0];
+        rank = results[2];
+        total_points = results[3];
+        total_coins = results[9];
+        dailyB_FromServer = results[11];
+
+
+            //init viewmodel
         mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
-        dailyB_String = ((MainActivityViewModel) mViewModel).message;
-        alertDialog = new android.app.AlertDialog.Builder(this).create();
-        alertDialog.setTitle("DailyB Status");
-        alertDialog.setMessage(dailyB_String);
-        alertDialog.show();
+            //Send info to view model
+        ((MainActivityViewModel) mViewModel).message = dailyB_FromServer;
+            //This gets the "message" string from view model
+        //dailyB_String = ((MainActivityViewModel) mViewModel).message;
+        //alertDialog = new android.app.AlertDialog.Builder(this).create();
+        //alertDialog.setTitle("DailyB Status");
+        //alertDialog.setMessage("here is user name from bg to check if working: " + dailyB_String);
+        //alertDialog.show();
 
         Map config = new HashMap();
         config.put("cloud_name", "lsid22exf");
@@ -79,6 +99,9 @@ public class MainActivity extends FragmentActivity {
 
         viewPager = (ViewPager)findViewById(R.id.view_pager);
         SwipeAdapter swipeAdapter = new SwipeAdapter(getSupportFragmentManager());
+        Bundle bundle = new Bundle();
+        bundle.putString("urlText", dailyB_FromServer);
+        swipeAdapter.setArguments(bundle);
         viewPager.setAdapter(swipeAdapter);
 
     }

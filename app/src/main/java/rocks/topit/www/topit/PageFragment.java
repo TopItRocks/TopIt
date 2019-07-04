@@ -44,12 +44,13 @@ public class PageFragment extends android.support.v4.app.Fragment{
         ImageView imageView = (ImageView) view.findViewById(R.id.view_pager2);
         Bundle bundle = getArguments();
         String urlText = (String) bundle.get("urlText");
+        urlText = MediaManager.get().url().generate(urlText);
         Picasso.get().load(urlText).into(imageView);
 
 
         //textView = (TextView)view.findViewById(R.id.view_pager2);
         //Bundle bundle = getArguments();
-        //String message = bundle.getString("count");
+        //String message = bundle.getString("urlText");
         //textView.setText("this is the "+message+" swipe view page..");
         return view;
     }
