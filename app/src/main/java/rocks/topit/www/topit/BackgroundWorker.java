@@ -24,6 +24,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>{
     Context context;
     AlertDialog alertDialog;
     SharedPreferences sp;
+    int displayAlert = 0;
 
     BackgroundWorker (Context ctx) {
         context = ctx;
@@ -37,6 +38,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>{
         String recover_url = "https://www.topit.rocks/login/resetPassword.php";
         String ver_resend_url = "https://www.topit.rocks/login/sendVerification.php";
         String update_scores_url = "https://www.topit.rocks/leaderboards/update_ui_scores.php";
+
 
         if(type.equals("login")){
             try {
@@ -88,19 +90,22 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>{
                             verifyEmail.putExtra("username", user_name);
                             verifyEmail.putExtra("password", password);
                             context.startActivity(verifyEmail);
-
+                            displayAlert = 1;
                             result = "Please verify your email. Please Allow 5 to 10 minutes to receive the verification code.";
                             return result;
                         }else{
                             result = "Please verify your email. Please Allow 5 to 10 minutes to receive the verification code.";
+                            displayAlert = 1;
                             return result;
                         }
                     }
                 }else if(results[0].equals("Bad Password")){
+                    displayAlert = 1;
                     result = "The password is incorrect.";
                     return result;
                 }else{
                     result = "That username does not exist.";
+                    displayAlert = 1;
                     return result;
                 }
                 //return result;
@@ -146,12 +151,15 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>{
                 inputStream.close();
                 httpURLConnection.disconnect();
                 if(result.equals("bad username")) {
+                    displayAlert = 1;
                     result = "Sorry that username is already in use. Please pick a new username.";
                     return result;
                 }else if(result.equals("bad email")){
+                    displayAlert = 1;
                     result = "Sorry there is already an account associated with that Email.\n\nTo retrieve your account info press the Retrieve Username and Password button on the log in screen.";
                     return result;
                 }else if(result.equals("good")){
+                    displayAlert = 1;
                     result = "account_Created";
                     Intent verifyEmail = new Intent(context, VerifyEmail.class);
                     verifyEmail.putExtra("username", userName);
@@ -159,6 +167,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>{
                     context.startActivity(verifyEmail);
                     return result;
                 }else{
+                    displayAlert = 1;
                     result = "There was an error registering your account.";
                     return result;
                 }
@@ -194,6 +203,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>{
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
+                displayAlert = 1;
                 return result;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -228,13 +238,16 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>{
 
                 String[] results = result.split(",");
                 if(results[0].equals("good")){
+                    displayAlert = 1;
                     result = "A new verification code has been sent to: "+ results[1];
                 }else{
+                    displayAlert = 1;
                     result = "There was an error in sending a new verification code. the result was: " + result + "and the username is: " + username;
                 }
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
+                displayAlert = 1;
                 return result;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -287,14 +300,18 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>{
 
     @Override
     protected void onPreExecute() {
-        alertDialog = new AlertDialog.Builder(context).create();
-        alertDialog.setTitle("Log In Status");
+        if (displayAlert == 1) {
+            alertDialog = new AlertDialog.Builder(context).create();
+            alertDialog.setTitle("Log In Status");
+        }
     }
 
     @Override
     protected void onPostExecute(String result) {
+        if (displayAlert == 1) {
             alertDialog.setMessage(result);
             alertDialog.show();
+        }
 
     }
 

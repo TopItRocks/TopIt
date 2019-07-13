@@ -26,6 +26,8 @@ public class Login extends AppCompatActivity {
             backgroundWorker.execute(type, username);
         }
 
+
+
         logIn_username = (EditText)findViewById(R.id.logIn_username);
         logIn_password = (EditText)findViewById(R.id.logIn_password);
     }

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,14 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.cloudinary.json.JSONString;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+import rocks.topit.www.topit.BackgroundWorkers.FragmentLoader;
 import rocks.topit.www.topit.viewmodel.MainActivityViewModel;
 
 //Packaged string from server with user info and scores
@@ -52,7 +61,7 @@ import rocks.topit.www.topit.viewmodel.MainActivityViewModel;
 
 public class MainActivity extends FragmentActivity {
     SharedPreferences sp;
-    String username, user, rank, admiration, affinity, combat, aura, vanguard, total_coins, total_points, packaged_result, urlText, dailyB_String, dailyB_FromServer;
+    String username, user, rank, admiration, affinity, combat, aura, vanguard, total_coins, total_points, packaged_result, urlText, dailyB_String, textBack, result;
     TextView sb_title_field, sb_username_field, sb_total_points, sb_rank, sb_total_coins, sb_admiration_points, affinity_pts, combat_pts, aura_pts, vanguard_pts;
     Intent user_intent;
     AlertDialog alertDialog;
@@ -79,23 +88,35 @@ public class MainActivity extends FragmentActivity {
         rank = results[2];
         total_points = results[3];
         total_coins = results[9];
-        dailyB_FromServer = results[11];
+        String dailyB_FromServer = results[11];
+
+        String[] dailyPics = dailyB_FromServer.split("-");
+        String[] line2 = dailyPics[1].split(":");
 
 
-            //init viewmodel
-        mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+
+        //init viewmodel
+        //mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
             //Send info to view model
-        ((MainActivityViewModel) mViewModel).message = dailyB_FromServer;
+        //((MainActivityViewModel) mViewModel).message = dailyB_FromServer;
             //This gets the "message" string from view model
         //dailyB_String = ((MainActivityViewModel) mViewModel).message;
-        //alertDialog = new android.app.AlertDialog.Builder(this).create();
-        //alertDialog.setTitle("DailyB Status");
-        //alertDialog.setMessage("here is user name from bg to check if working: " + dailyB_String);
-        //alertDialog.show();
 
+        //Set up Cloudinary MediaManager
         Map config = new HashMap();
         config.put("cloud_name", "lsid22exf");
         MediaManager.init(this, config);
+
+        // talk to FragmentLoader
+        //String type = "daily";
+        //FragmentLoader fragmentLoader = new FragmentLoader(this);
+        //fragmentLoader.execute(type, username);
+
+        //alertDialog = new android.app.AlertDialog.Builder(this).create();
+        //alertDialog.setTitle("DailyB Status");
+        //alertDialog.setMessage("here is user name from bg to check if working: " + line2[1]);
+        //alertDialog.show();
+
 
         viewPager = (ViewPager)findViewById(R.id.view_pager);
         SwipeAdapter swipeAdapter = new SwipeAdapter(getSupportFragmentManager());

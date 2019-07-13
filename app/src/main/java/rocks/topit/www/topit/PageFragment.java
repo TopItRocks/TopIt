@@ -42,9 +42,19 @@ public class PageFragment extends android.support.v4.app.Fragment{
         //urlText = MediaManager.get().url().generate("5b7a2e5478832.jpg");
 
         ImageView imageView = (ImageView) view.findViewById(R.id.view_pager2);
+        TextView textView = (TextView) view.findViewById(R.id.fragmentText);
+
+        // get bundle from swipe adapter
         Bundle bundle = getArguments();
         String urlText = (String) bundle.get("urlText");
-        urlText = MediaManager.get().url().generate(urlText);
+
+        // break string apart here
+        String[] picDetails = urlText.split(":");
+        textView.setText(picDetails[1]);
+        // turn file name into url for cloudinary download
+        urlText = MediaManager.get().url().generate(picDetails[0]);
+
+        // load picture into page fragment Image View
         Picasso.get().load(urlText).into(imageView);
 
 
